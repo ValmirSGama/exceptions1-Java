@@ -43,10 +43,19 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
 	
-	// Método que atualiza o checkIn e checkOut.
-	public void updateDates(Date checkIn, Date checkOut) {
+	// Método que trata as possíveis exeções e atualiza o checkIn e checkOut.
+	public String updateDates(Date checkIn, Date checkOut) {
+		
+		Date now = new Date();
+		if(checkIn.before(now) || checkOut.before(now)) {
+			return "Reservation dates for update must be future dates";
+		}
+		if(!checkOut.after(checkIn)) {
+			return "check-out date must be after check-in date";
+		}
 		this.checkIn = checkIn; 
 		this.checkOut = checkOut;
+		return null;
 	}
 	
 	// Método toString.
